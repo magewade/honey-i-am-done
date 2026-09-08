@@ -40,7 +40,6 @@ func _spawn_bee(hive: Node2D) -> void:
 	var angle := randf() * TAU
 	var distance := randf_range(900.0, 1400.0)
 	bee.home_hive = hive
-	bee.world_root = objects
 	bee.position = hive.position + Vector2(cos(angle), sin(angle)) * distance
 	objects.add_child(bee)
 

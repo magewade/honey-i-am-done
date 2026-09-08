@@ -9,13 +9,15 @@ const SLOWDOWN_RADIUS := 150.0
 const MIN_SPEED_FACTOR := 0.3
 const LEAVE_DISTANCE := 1600.0
 const MAX_START_DELAY := 1.5
-const HIVE_ENTRANCE_CENTER := Vector2(-112, -88)
-const HIVE_ENTRANCE_DIR := Vector2(0.8, 0.6)
-const HIVE_ENTRANCE_HALF_LENGTH := 65.0
+const HIVE_ENTRANCE_CENTER := Vector2(-87, -91)
+const HIVE_ENTRANCE_DIR := Vector2(0.894, 0.447)
+const HIVE_ENTRANCE_HALF_LENGTH := 60.0
 const HIVE_ENTRANCE_THICKNESS := 14.0
 const HIVE_DIVE_SPEED := 60.0
 const MAX_BEES_PER_STEM := 2
 const LANDING_JITTER := 6.0
+const FLOWER_DEPTH_MARGIN := 70.0
+const FLOWER_APPROACH_SPREAD := deg_to_rad(55.0)
 
 const TURN_SMOOTH_TIME := 0.5
 const MAX_TURN_RATE := 4.5
@@ -25,7 +27,6 @@ const SPEED_NOISE_FREQ := 0.6
 const SPEED_VARIATION := 0.35
 
 var home_hive: Node2D = null
-var world_root: Node2D = null
 
 @onready var _body: Sprite2D = $Body
 
@@ -38,6 +39,11 @@ var _noise := FastNoiseLite.new()
 var _noise_x_offset: float
 var _plan: Array[String] = []
 var _landing_spot: Node2D = null
+var _landing_offset: Vector2 = Vector2.ZERO
+var _pending_liftoff_reset := false
+var _liftoff_position: Vector2 = Vector2.ZERO
+var _flower_final_target: Vector2 = Vector2.ZERO
+var _flower_phase_final := false
 
 func _ready() -> void:
 	_speed = randf_range(150.0, 230.0)
@@ -83,15 +89,27 @@ func _process(delta: float) -> void:
 				_advance_plan()
 		State.ON_FLOWER:
 			_timer -= delta
+			if _landing_spot:
+				global_position = _landing_spot.global_position + _landing_offset
 			if _timer <= 0.0:
 				_leave_landing_spot()
 				_advance_plan()
 
 func _fly_toward(delta: float) -> void:
+	if _pending_liftoff_reset and global_position.distance_to(_liftoff_position) >= FLOWER_DEPTH_MARGIN:
+		z_index = 0
+		_pending_liftoff_reset = false
+
 	var to_target := _target - global_position
 	var distance := to_target.length()
+
 	if distance <= ARRIVE_DISTANCE:
-		_arrive()
+		if _state == State.TO_FLOWER and not _flower_phase_final:
+			_flower_phase_final = true
+			z_index = 1
+			_target = _flower_final_target
+		else:
+			_arrive()
 		return
 
 	var proximity := clampf(distance / SLOWDOWN_RADIUS, 0.0, 1.0)
@@ -121,13 +139,13 @@ func _arrive() -> void:
 			_timer = HIVE_FADE_TIME
 		State.TO_FLOWER:
 			global_position = _target
-			if _landing_spot and world_root:
-				var gp := global_position
-				world_root.remove_child(self)
-				_landing_spot.add_child(self)
-				global_position = gp
+			if _landing_spot:
+				_landing_offset = global_position - _landing_spot.global_position
 			_state = State.ON_FLOWER
 			_timer = FLOWER_PAUSE
+			_flower_phase_final = false
+			_pending_liftoff_reset = false
+			z_index = 1
 		State.LEAVE_SCREEN:
 			_build_plan()
 			_advance_plan()
@@ -142,6 +160,7 @@ func _advance_plan() -> void:
 		if hive:
 			_target = hive.global_position + _hive_approach_offset()
 			_state = State.TO_HIVE
+			_pending_liftoff_reset = false
 			z_index = 1
 			return
 	else:
@@ -149,7 +168,10 @@ func _advance_plan() -> void:
 		if spot:
 			spot.set_meta("reserved_count", int(spot.get_meta("reserved_count", 0)) + 1)
 			_landing_spot = spot
-			_target = spot.global_position + Vector2(randf_range(-LANDING_JITTER, LANDING_JITTER), randf_range(-LANDING_JITTER, LANDING_JITTER))
+			_flower_final_target = spot.global_position + Vector2(randf_range(-LANDING_JITTER, LANDING_JITTER), randf_range(-LANDING_JITTER, LANDING_JITTER))
+			_flower_phase_final = false
+			var approach_angle := randf_range(-FLOWER_APPROACH_SPREAD, FLOWER_APPROACH_SPREAD)
+			_target = _flower_final_target + Vector2.DOWN.rotated(approach_angle) * FLOWER_DEPTH_MARGIN
 			_state = State.TO_FLOWER
 			return
 	_advance_plan()
@@ -167,11 +189,8 @@ func _pick_landing_spot() -> Node2D:
 func _leave_landing_spot() -> void:
 	if _landing_spot == null:
 		return
-	var gp := global_position
-	_landing_spot.remove_child(self)
-	if world_root:
-		world_root.add_child(self)
-	global_position = gp
+	_pending_liftoff_reset = true
+	_liftoff_position = global_position
 	_landing_spot.set_meta("reserved_count", maxi(0, int(_landing_spot.get_meta("reserved_count", 0)) - 1))
 	_landing_spot = null
 
