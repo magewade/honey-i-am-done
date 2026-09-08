@@ -2,14 +2,15 @@ extends Control
 class_name Honeycomb
 
 const COMB_TEXTURE := preload("res://sprites/Frame/Comb.png")
+const EMPTY_CELL_TEXTURE := preload("res://sprites/Frame/Empty_cell.png")
+const EMPTY_CELL_SIZE := Vector2(72.0, 75.0)
 const TEXTURE_SIZE := Vector2(1425.0, 789.0)
 const PITCH_X := 66.0
 const PITCH_Y := 54.0
 const ROW_COUNT := 14
 const COL_COUNT := 21
 const BASE_ALPHA := 0.2
-const HEX_RADIUS := 38.1
-const CORNER_ANGLES := [-30.0, 30.0, 90.0, 150.0, 210.0, 270.0]
+const CORE_HALF := 33.0
 
 var _installed: Dictionary = {}
 
@@ -24,25 +25,18 @@ func _draw() -> void:
 
 func _draw_cell(row: int, col: int, scale_factor: float) -> void:
 	var center: Vector2 = _cell_center(row, col)
-	var points := PackedVector2Array()
-	var uvs := PackedVector2Array()
-	for angle_deg in CORNER_ANGLES:
-		var angle := deg_to_rad(angle_deg)
-		var corner := center + Vector2(cos(angle), sin(angle)) * HEX_RADIUS
-		corner = _extend_to_frame(corner, row, col, angle_deg)
-		points.append(corner * scale_factor)
-		uvs.append(corner / TEXTURE_SIZE)
-	draw_polygon(points, PackedColorArray([Color.WHITE]), uvs, COMB_TEXTURE)
+	var dst := Rect2((center - EMPTY_CELL_SIZE * 0.5) * scale_factor, EMPTY_CELL_SIZE * scale_factor)
+	draw_texture_rect(EMPTY_CELL_TEXTURE, dst, false)
 	_draw_side_connectors(row, col, center, scale_factor)
+	_draw_row_connectors(row, center, scale_factor)
 
-func _extend_to_frame(corner: Vector2, row: int, _col: int, angle_deg: float) -> Vector2:
-	# top/bottom corners reach the top/bottom frame (a cell there has no interior neighbor on that side at all,
-	# and same-row cells are evenly spaced so neighboring rectangles line up with no gap)
-	if row == 0 and (angle_deg == 210.0 or angle_deg == 270.0 or angle_deg == -30.0):
-		corner.y = 0.0
-	if row == ROW_COUNT - 1 and (angle_deg == 30.0 or angle_deg == 90.0 or angle_deg == 150.0):
-		corner.y = TEXTURE_SIZE.y
-	return corner
+func _draw_row_connectors(row: int, center: Vector2, scale_factor: float) -> void:
+	# a cell in the first/last row has no interior neighbor on that whole side at all (same-row
+	# cells are evenly spaced with no zigzag), so it always reaches straight to the frame.
+	if row == 0:
+		_draw_rect(center.x - PITCH_X * 0.5, center.x + PITCH_X * 0.5, 0.0, center.y - CORE_HALF, scale_factor)
+	if row == ROW_COUNT - 1:
+		_draw_rect(center.x - PITCH_X * 0.5, center.x + PITCH_X * 0.5, center.y + CORE_HALF, TEXTURE_SIZE.y, scale_factor)
 
 func _draw_side_connectors(row: int, col: int, center: Vector2, scale_factor: float) -> void:
 	# left/right columns zigzag by half a pitch between rows, so a single cell's own corners
@@ -52,8 +46,8 @@ func _draw_side_connectors(row: int, col: int, center: Vector2, scale_factor: fl
 	# own natural hex extent, so a lone border cell doesn't sprout a dangling nub.
 	var extend_up := row == 0 or is_installed(row - 1, col)
 	var extend_down := row == ROW_COUNT - 1 or is_installed(row + 1, col)
-	var y_top := maxf(0.0, center.y - (PITCH_Y if extend_up else HEX_RADIUS))
-	var y_bottom := minf(TEXTURE_SIZE.y, center.y + (PITCH_Y if extend_down else HEX_RADIUS))
+	var y_top := maxf(0.0, center.y - (PITCH_Y if extend_up else CORE_HALF))
+	var y_bottom := minf(TEXTURE_SIZE.y, center.y + (PITCH_Y if extend_down else CORE_HALF))
 	if col == 0:
 		_draw_rect(0.0, PITCH_X, y_top, y_bottom, scale_factor)
 	if col == COL_COUNT - 1:
