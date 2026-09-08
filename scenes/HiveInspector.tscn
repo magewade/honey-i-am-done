@@ -3,6 +3,8 @@
 [ext_resource type="Texture2D" uid="uid://dfwcdyr1gwint" path="res://sprites/Frame/Frame.png" id="1_frame"]
 [ext_resource type="Script" uid="uid://qalxupgg0swc" path="res://scripts/hive_inspector.gd" id="3_script"]
 [ext_resource type="Script" path="res://scripts/honeycomb.gd" id="4_honeycomb"]
+[ext_resource type="Texture2D" path="res://sprites/Frame/Empty_cell.png" id="5_emptycell"]
+[ext_resource type="Theme" path="res://fonts/game_theme.tres" id="6_theme"]
 
 [node name="HiveInspector" type="CanvasLayer" unique_id=111754517]
 layer = 10
@@ -12,6 +14,7 @@ script = ExtResource("3_script")
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+theme = ExtResource("6_theme")
 color = Color(0, 0, 0, 0.6)
 
 [node name="FrameGroup" type="Control" parent="Dim" unique_id=979395771]
@@ -56,3 +59,23 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 0
 script = ExtResource("4_honeycomb")
+
+[node name="CellCounter" type="HBoxContainer" parent="Dim"]
+offset_left = 24.0
+offset_top = 24.0
+offset_right = 120.0
+offset_bottom = 64.0
+mouse_filter = 2
+theme_override_constants/separation = 8
+
+[node name="Icon" type="TextureRect" parent="Dim/CellCounter"]
+custom_minimum_size = Vector2(36, 36)
+layout_mode = 2
+texture = ExtResource("5_emptycell")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Label" type="Label" parent="Dim/CellCounter"]
+layout_mode = 2
+size_flags_vertical = 4
+text = "10"

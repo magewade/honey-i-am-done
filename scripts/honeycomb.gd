@@ -1,6 +1,8 @@
 extends Control
 class_name Honeycomb
 
+signal cell_installed
+
 const COMB_TEXTURE := preload("res://sprites/Frame/Comb.png")
 const EMPTY_CELL_TEXTURE := preload("res://sprites/Frame/Empty_cell.png")
 const EMPTY_CELL_SIZE := Vector2(72.0, 75.0)
@@ -10,7 +12,9 @@ const PITCH_Y := 54.0
 const ROW_COUNT := 14
 const COL_COUNT := 21
 const BASE_ALPHA := 0.2
-const CORE_HALF := 33.0
+# Measured at the true canvas edge (y=0 and y=789, where a row-0/row-13 hex is actually cut by
+# the texture boundary) - the real width there, not somewhere mid-strut further from the edge.
+const STRUT_WIDTH := 24.0
 
 var _installed: Dictionary = {}
 
@@ -25,18 +29,22 @@ func _draw() -> void:
 
 func _draw_cell(row: int, col: int, scale_factor: float) -> void:
 	var center: Vector2 = _cell_center(row, col)
-	var dst := Rect2((center - EMPTY_CELL_SIZE * 0.5) * scale_factor, EMPTY_CELL_SIZE * scale_factor)
-	draw_texture_rect(EMPTY_CELL_TEXTURE, dst, false)
+	# connectors drawn first, sprite on top - so the sprite's own clean silhouette always wins
+	# where they overlap, and a connector only actually shows in the sliver beyond the sprite.
 	_draw_side_connectors(row, col, center, scale_factor)
 	_draw_row_connectors(row, center, scale_factor)
+	var dst := Rect2((center - EMPTY_CELL_SIZE * 0.5) * scale_factor, EMPTY_CELL_SIZE * scale_factor)
+	draw_texture_rect(EMPTY_CELL_TEXTURE, dst, false)
 
 func _draw_row_connectors(row: int, center: Vector2, scale_factor: float) -> void:
 	# a cell in the first/last row has no interior neighbor on that whole side at all (same-row
-	# cells are evenly spaced with no zigzag), so it always reaches straight to the frame.
+	# cells are evenly spaced with no zigzag), so it always reaches straight to the frame - as a
+	# constant-width strut, matching the real connecting pillars already in the source art.
+	var half_strut := STRUT_WIDTH * 0.5
 	if row == 0:
-		_draw_rect(center.x - PITCH_X * 0.5, center.x + PITCH_X * 0.5, 0.0, center.y - CORE_HALF, scale_factor)
+		_draw_rect(center.x - half_strut, center.x + half_strut, 0.0, center.y, scale_factor)
 	if row == ROW_COUNT - 1:
-		_draw_rect(center.x - PITCH_X * 0.5, center.x + PITCH_X * 0.5, center.y + CORE_HALF, TEXTURE_SIZE.y, scale_factor)
+		_draw_rect(center.x - half_strut, center.x + half_strut, center.y, TEXTURE_SIZE.y, scale_factor)
 
 func _draw_side_connectors(row: int, col: int, center: Vector2, scale_factor: float) -> void:
 	# left/right columns zigzag by half a pitch between rows, so a single cell's own corners
@@ -46,8 +54,8 @@ func _draw_side_connectors(row: int, col: int, center: Vector2, scale_factor: fl
 	# own natural hex extent, so a lone border cell doesn't sprout a dangling nub.
 	var extend_up := row == 0 or is_installed(row - 1, col)
 	var extend_down := row == ROW_COUNT - 1 or is_installed(row + 1, col)
-	var y_top := maxf(0.0, center.y - (PITCH_Y if extend_up else CORE_HALF))
-	var y_bottom := minf(TEXTURE_SIZE.y, center.y + (PITCH_Y if extend_down else CORE_HALF))
+	var y_top := maxf(0.0, center.y - (PITCH_Y if extend_up else EMPTY_CELL_SIZE.y * 0.5))
+	var y_bottom := minf(TEXTURE_SIZE.y, center.y + (PITCH_Y if extend_down else EMPTY_CELL_SIZE.y * 0.5))
 	if col == 0:
 		_draw_rect(0.0, PITCH_X, y_top, y_bottom, scale_factor)
 	if col == COL_COUNT - 1:
@@ -99,6 +107,8 @@ func get_neighbors(row: int, col: int) -> Array[Vector2i]:
 	return _neighbor_coords(row, col)
 
 func can_install(row: int, col: int) -> bool:
+	if installed_count() >= Economy.get_bees():
+		return false
 	if row < 0 or row >= ROW_COUNT or col < 0 or col >= COL_COUNT:
 		return false
 	if is_installed(row, col):
@@ -115,6 +125,7 @@ func install_cell(row: int, col: int) -> bool:
 		return false
 	_installed[Vector2i(row, col)] = true
 	queue_redraw()
+	cell_installed.emit()
 	return true
 
 func _closest_cell(local_pos: Vector2) -> Vector2i:
