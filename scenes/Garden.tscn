@@ -4,6 +4,7 @@
 [ext_resource type="Script" uid="uid://bxgckhwm1h4mk" path="res://scripts/garden.gd" id="1_fatj7"]
 [ext_resource type="Texture2D" uid="uid://yo1838fp8xup" path="res://sprites/Garden/Ground.png" id="2_fatj7"]
 [ext_resource type="PackedScene" path="res://scenes/UI.tscn" id="3_uipnl"]
+[ext_resource type="PackedScene" path="res://scenes/HiveInspector.tscn" id="4_hiveinspector"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_1elqx"]
 texture = ExtResource("1_a07rb")
@@ -40,3 +41,5 @@ scale = Vector2(5.559999, 1)
 zoom = Vector2(0.5, 0.5)
 
 [node name="UI" parent="." instance=ExtResource("3_uipnl")]
+
+[node name="HiveInspector" parent="." instance=ExtResource("4_hiveinspector")]

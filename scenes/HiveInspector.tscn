@@ -1,0 +1,58 @@
+[gd_scene format=3 uid="uid://oiwckpkd80xw"]
+
+[ext_resource type="Texture2D" uid="uid://dfwcdyr1gwint" path="res://sprites/Frame/Frame.png" id="1_frame"]
+[ext_resource type="Script" uid="uid://qalxupgg0swc" path="res://scripts/hive_inspector.gd" id="3_script"]
+[ext_resource type="Script" path="res://scripts/honeycomb.gd" id="4_honeycomb"]
+
+[node name="HiveInspector" type="CanvasLayer" unique_id=111754517]
+layer = 10
+script = ExtResource("3_script")
+
+[node name="Dim" type="ColorRect" parent="." unique_id=955385130]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0, 0, 0, 0.6)
+
+[node name="FrameGroup" type="Control" parent="Dim" unique_id=979395771]
+anchors_preset = 0
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -748.8
+offset_top = -394.8
+offset_right = 748.8
+offset_bottom = 394.8
+mouse_filter = 2
+
+[node name="Frame" type="TextureRect" parent="Dim/FrameGroup" unique_id=149615449]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -186.20001
+offset_top = -92.20001
+offset_right = 188.19995
+offset_bottom = 105.20001
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("1_frame")
+stretch_mode = 5
+
+[node name="Comb" type="Control" parent="Dim/FrameGroup" unique_id=339984550]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -712.00006
+offset_top = -387.0
+offset_right = 713.0
+offset_bottom = 402.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 0
+script = ExtResource("4_honeycomb")

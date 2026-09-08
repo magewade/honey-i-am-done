@@ -7,6 +7,7 @@ const GROUND_TEXTURE := preload("res://sprites/Garden/Ground.png")
 
 @onready var tile_map: TileMapLayer = $TileMapLayer
 @onready var objects: Node2D = $Objects
+@onready var hive_inspector: CanvasLayer = $HiveInspector
 
 var _ghost: Node2D = null
 var _known_bees := 0
@@ -23,6 +24,7 @@ func _spawn_hive(cell: Vector2i) -> void:
 	objects.add_child(hive)
 	hive.position = tile_map.map_to_local(cell)
 	hive.add_to_group("hives")
+	hive.opened.connect(hive_inspector.open)
 
 func _on_bees_changed(new_amount: int) -> void:
 	var delta := new_amount - _known_bees
@@ -94,6 +96,8 @@ func _unhandled_input(event: InputEvent) -> void:
 			objects.add_child(item)
 			if Placement.group != "":
 				item.add_to_group(Placement.group)
+			if item.is_in_group("hives"):
+				item.opened.connect(hive_inspector.open)
 			Placement.clear()
 		Placement.Kind.TILE:
 			if tile_map.get_cell_source_id(cell) != -1:

@@ -2,8 +2,13 @@
 
 [ext_resource type="Texture2D" uid="uid://csevcad5sniu4" path="res://sprites/Garden/Hive_blue.png" id="1_4tmg1"]
 [ext_resource type="Texture2D" uid="uid://ye4hpqwsyk8u" path="res://sprites/Garden/Grass_under_hive.png" id="2_yvayg"]
+[ext_resource type="Script" path="res://scripts/hive.gd" id="3_hive"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hive"]
+size = Vector2(410, 565)
 
 [node name="Hive" type="Node2D" unique_id=1038096773]
+script = ExtResource("3_hive")
 
 [node name="Body" type="Sprite2D" parent="." unique_id=1408176082]
 position = Vector2(-1, -219)
@@ -12,3 +17,9 @@ texture = ExtResource("1_4tmg1")
 [node name="GrassDecal" type="Sprite2D" parent="." unique_id=226743509]
 position = Vector2(-3, 17)
 texture = ExtResource("2_yvayg")
+
+[node name="ClickArea" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ClickArea"]
+position = Vector2(-1, -219)
+shape = SubResource("RectangleShape2D_hive")
