@@ -1,0 +1,33 @@
+[gd_scene format=3 uid="uid://kieon0rif6"]
+
+[ext_resource type="Script" uid="uid://tm60e366euoj" path="res://scripts/swaying_plant.gd" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://bujl6mhyp08pt" path="res://sprites/Garden/Sunflower_2.png" id="2_u8qkw"]
+[ext_resource type="Texture2D" uid="uid://g1t871ni0jeq" path="res://sprites/Garden/Sunflower_3.png" id="3_gxpt6"]
+[ext_resource type="Texture2D" uid="uid://0ftdabw1ddnd" path="res://sprites/Garden/Sunflower_1.png" id="4_pgq73"]
+
+[node name="SunflowerCluster" type="Node2D" unique_id=644713213]
+script = ExtResource("1_script")
+
+[node name="Sunflower2" type="Sprite2D" parent="." unique_id=1505405280]
+position = Vector2(-81.5, -17)
+centered = false
+offset = Vector2(-95, -325)
+texture = ExtResource("2_u8qkw")
+
+[node name="Sunflower3" type="Sprite2D" parent="." unique_id=187213812]
+position = Vector2(71.5, -6.5)
+centered = false
+offset = Vector2(-105, -380)
+texture = ExtResource("3_gxpt6")
+
+[node name="LandingSpot" type="Marker2D" parent="Sunflower3"]
+position = Vector2(13.38, -303.25)
+
+[node name="Sunflower1" type="Sprite2D" parent="." unique_id=1538327655]
+position = Vector2(1.5, 50)
+centered = false
+offset = Vector2(-97.5, -375)
+texture = ExtResource("4_pgq73")
+
+[node name="LandingSpot" type="Marker2D" parent="Sunflower1"]
+position = Vector2(-0.41, -292.8)

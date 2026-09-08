@@ -1,0 +1,94 @@
+[gd_scene format=3 uid="uid://b7tlg48fu6q7x"]
+
+[ext_resource type="Texture2D" uid="uid://bu2lf0rls0qm0" path="res://sprites/Garden/Lavender_1.png" id="1_vl4e1"]
+[ext_resource type="Texture2D" uid="uid://ci8mkh01p5ymv" path="res://sprites/Garden/Lavender_2.png" id="2_ht7au"]
+[ext_resource type="Texture2D" uid="uid://dhv6ejcqbinjb" path="res://sprites/Garden/Lavender_3.png" id="3_ber48"]
+[ext_resource type="Texture2D" uid="uid://cflrhko86okga" path="res://sprites/Garden/Lavender_4.png" id="4_0265o"]
+[ext_resource type="Texture2D" uid="uid://djcy43p0c3skb" path="res://sprites/Garden/Lavender_5.png" id="5_c3ofy"]
+[ext_resource type="Texture2D" uid="uid://bahqjeahly1ph" path="res://sprites/Garden/Lavender_6.png" id="6_0o7lj"]
+[ext_resource type="Texture2D" uid="uid://dppxkgkemwjia" path="res://sprites/Garden/Lavender_7.png" id="7_etrfx"]
+[ext_resource type="Texture2D" uid="uid://b3qebi6bydspp" path="res://sprites/Garden/Lavender_8.png" id="8_2d0kf"]
+[ext_resource type="Texture2D" uid="uid://bp3b3hq3jvouw" path="res://sprites/Garden/Lavender_9.png" id="9_1jd2u"]
+[ext_resource type="Texture2D" uid="uid://kxickwp3bb2k" path="res://sprites/Garden/Lavender_10.png" id="10_e5t2g"]
+[ext_resource type="Script" path="res://scripts/swaying_plant.gd" id="11_script"]
+
+[node name="LavenderCluster" type="Node2D" unique_id=1161587248]
+script = ExtResource("11_script")
+
+[node name="Lavender1" type="Sprite2D" parent="." unique_id=762955159]
+position = Vector2(-10, -8.5)
+centered = false
+offset = Vector2(-37.5, -325)
+texture = ExtResource("1_vl4e1")
+
+[node name="LandingSpot" type="Marker2D" parent="Lavender1"]
+position = Vector2(8.3, -237.25)
+
+[node name="Lavender2" type="Sprite2D" parent="." unique_id=1005483304]
+position = Vector2(-46, 15.5)
+centered = false
+offset = Vector2(-35, -150)
+texture = ExtResource("2_ht7au")
+
+[node name="Lavender3" type="Sprite2D" parent="." unique_id=14396244]
+position = Vector2(-98, -28)
+centered = false
+offset = Vector2(-40, -150)
+texture = ExtResource("3_ber48")
+
+[node name="Lavender4" type="Sprite2D" parent="." unique_id=1624838362]
+position = Vector2(-115, 9)
+centered = false
+offset = Vector2(-45, -190)
+texture = ExtResource("4_0265o")
+
+[node name="LandingSpot" type="Marker2D" parent="Lavender4"]
+position = Vector2(-11.87, -132.79)
+
+[node name="Lavender5" type="Sprite2D" parent="." unique_id=1953652139]
+position = Vector2(-66, 34.5)
+centered = false
+offset = Vector2(-37.5, -325)
+texture = ExtResource("5_c3ofy")
+
+[node name="LandingSpot" type="Marker2D" parent="Lavender5"]
+position = Vector2(-7.47, -238.1)
+
+[node name="Lavender6" type="Sprite2D" parent="." unique_id=364600670]
+position = Vector2(36, 10)
+centered = false
+offset = Vector2(-55, -305)
+texture = ExtResource("6_0o7lj")
+
+[node name="LandingSpot" type="Marker2D" parent="Lavender6"]
+position = Vector2(21.46, -220.14)
+
+[node name="Lavender7" type="Sprite2D" parent="." unique_id=266256009]
+position = Vector2(92, 26.5)
+centered = false
+offset = Vector2(-57.5, -290)
+texture = ExtResource("7_etrfx")
+
+[node name="LandingSpot" type="Marker2D" parent="Lavender7"]
+position = Vector2(13.48, -218.15)
+
+[node name="Lavender8" type="Sprite2D" parent="." unique_id=536697791]
+position = Vector2(50, 27.5)
+centered = false
+offset = Vector2(-40, -180)
+texture = ExtResource("8_2d0kf")
+
+[node name="Lavender9" type="Sprite2D" parent="." unique_id=224858581]
+position = Vector2(7, 40)
+centered = false
+offset = Vector2(-47.5, -160)
+texture = ExtResource("9_1jd2u")
+
+[node name="Lavender10" type="Sprite2D" parent="." unique_id=1075706078]
+position = Vector2(110, 6)
+centered = false
+offset = Vector2(-50, -150)
+texture = ExtResource("10_e5t2g")
+
+[node name="LandingSpot" type="Marker2D" parent="Lavender10"]
+position = Vector2(16.2, -105.93)

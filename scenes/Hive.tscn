@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://b8p65srvj8dr0"]
+
+[ext_resource type="Texture2D" uid="uid://csevcad5sniu4" path="res://sprites/Garden/Hive_blue.png" id="1_4tmg1"]
+[ext_resource type="Texture2D" uid="uid://ye4hpqwsyk8u" path="res://sprites/Garden/Grass_under_hive.png" id="2_yvayg"]
+
+[node name="Hive" type="Node2D" unique_id=1038096773]
+
+[node name="Body" type="Sprite2D" parent="." unique_id=1408176082]
+position = Vector2(-1, -219)
+texture = ExtResource("1_4tmg1")
+
+[node name="GrassDecal" type="Sprite2D" parent="." unique_id=226743509]
+position = Vector2(-3, 17)
+texture = ExtResource("2_yvayg")

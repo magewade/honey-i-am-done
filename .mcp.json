@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "godot": {
+      "command": "/Users/magewade/Desktop/godot-mcp/python/venv/bin/python",
+      "args": ["/Users/magewade/Desktop/godot-mcp/python/server.py"],
+      "env": {}
+    }
+  }
+}
