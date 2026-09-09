@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://drg3s74l63w62"
-path="res://.godot/imported/Empty_cell.png-4accd20147a35ede80f011ea1b7ef817.ctex"
+uid="uid://brhiske4g4y4s"
+path="res://.godot/imported/empty_cell.png-74922ae7620783d42688e60b6d243de1.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://sprites/Frame/Empty_cell.png"
-dest_files=["res://.godot/imported/Empty_cell.png-4accd20147a35ede80f011ea1b7ef817.ctex"]
+source_file="res://sprites/Frame/empty_cell.png"
+dest_files=["res://.godot/imported/empty_cell.png-74922ae7620783d42688e60b6d243de1.ctex"]
 
 [params]
 

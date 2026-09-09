@@ -1,0 +1,369 @@
+[gd_scene format=3 uid="uid://jsawrhuoaxu1"]
+
+[ext_resource type="Script" uid="uid://byk7lw3l40wv2" path="res://scripts/cell_mask_editor.gd" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://bo5kyv5rve7gn" path="res://sprites/Frame/Comb.png" id="2_comb"]
+
+[node name="CellMaskEditor" type="Node2D" unique_id=1768842495]
+script = ExtResource("1_script")
+
+[node name="Reference" type="Sprite2D" parent="." unique_id=688571786]
+position = Vector2(-199.5, -315)
+texture = ExtResource("2_comb")
+centered = false
+
+[node name="Markers_NORMAL" type="Node2D" parent="." unique_id=1909835896]
+visible = false
+
+[node name="Point00" type="Marker2D" parent="Markers_NORMAL" unique_id=555050640]
+position = Vector2(-41.5, -19)
+
+[node name="Point01" type="Marker2D" parent="Markers_NORMAL" unique_id=258169083]
+position = Vector2(-31.5, -28)
+
+[node name="Point02" type="Marker2D" parent="Markers_NORMAL" unique_id=139944321]
+position = Vector2(-21.5, -31)
+
+[node name="Point03" type="Marker2D" parent="Markers_NORMAL" unique_id=1419871652]
+position = Vector2(-9.5, -40)
+
+[node name="Point04" type="Marker2D" parent="Markers_NORMAL" unique_id=1328877136]
+position = Vector2(0.5, -40)
+
+[node name="Point05" type="Marker2D" parent="Markers_NORMAL" unique_id=277759599]
+position = Vector2(10.5, -40)
+
+[node name="Point06" type="Marker2D" parent="Markers_NORMAL" unique_id=201395754]
+position = Vector2(22.5, -31)
+
+[node name="Point07" type="Marker2D" parent="Markers_NORMAL" unique_id=1482267694]
+position = Vector2(32.5, -28)
+
+[node name="Point08" type="Marker2D" parent="Markers_NORMAL" unique_id=328884798]
+position = Vector2(41.5, 19)
+
+[node name="Point09" type="Marker2D" parent="Markers_NORMAL" unique_id=1776379095]
+position = Vector2(32.5, 28)
+
+[node name="Point10" type="Marker2D" parent="Markers_NORMAL" unique_id=1655438163]
+position = Vector2(22.5, 31)
+
+[node name="Point11" type="Marker2D" parent="Markers_NORMAL" unique_id=1700781402]
+position = Vector2(10.5, 40)
+
+[node name="Point12" type="Marker2D" parent="Markers_NORMAL" unique_id=2001019446]
+position = Vector2(0.5, 40)
+
+[node name="Point13" type="Marker2D" parent="Markers_NORMAL" unique_id=26164402]
+position = Vector2(-9.5, 40)
+
+[node name="Point14" type="Marker2D" parent="Markers_NORMAL" unique_id=1051396725]
+position = Vector2(-21.5, 31)
+
+[node name="Point15" type="Marker2D" parent="Markers_NORMAL" unique_id=326723733]
+position = Vector2(-31.5, 28)
+
+[node name="Markers_LEFT_EVEN" type="Node2D" parent="." unique_id=1881714443]
+position = Vector2(-129, -1)
+
+[node name="Point00" type="Marker2D" parent="Markers_LEFT_EVEN" unique_id=2015055470]
+position = Vector2(-41.5, -19)
+
+[node name="Point01" type="Marker2D" parent="Markers_LEFT_EVEN" unique_id=340244054]
+position = Vector2(-31.5, -28)
+
+[node name="Point02" type="Marker2D" parent="Markers_LEFT_EVEN" unique_id=121538821]
+position = Vector2(-21.5, -31)
+
+[node name="Point03" type="Marker2D" parent="Markers_LEFT_EVEN" unique_id=1467962960]
+position = Vector2(-9.5, -40)
+
+[node name="Point04" type="Marker2D" parent="Markers_LEFT_EVEN" unique_id=1859809002]
+position = Vector2(0.5, -40)
+
+[node name="Point05" type="Marker2D" parent="Markers_LEFT_EVEN" unique_id=1985914199]
+position = Vector2(10.5, -40)
+
+[node name="Point06" type="Marker2D" parent="Markers_LEFT_EVEN" unique_id=761791502]
+position = Vector2(22.5, -31)
+
+[node name="Point07" type="Marker2D" parent="Markers_LEFT_EVEN" unique_id=901017679]
+position = Vector2(32.5, -28)
+
+[node name="Point08" type="Marker2D" parent="Markers_LEFT_EVEN" unique_id=755232342]
+position = Vector2(41.5, 19)
+
+[node name="Point09" type="Marker2D" parent="Markers_LEFT_EVEN" unique_id=1642067916]
+position = Vector2(32.5, 28)
+
+[node name="Point10" type="Marker2D" parent="Markers_LEFT_EVEN" unique_id=1550200081]
+position = Vector2(22.5, 31)
+
+[node name="Point11" type="Marker2D" parent="Markers_LEFT_EVEN" unique_id=562505069]
+position = Vector2(10.5, 40)
+
+[node name="Point12" type="Marker2D" parent="Markers_LEFT_EVEN" unique_id=2072210940]
+position = Vector2(0.5, 40)
+
+[node name="Point13" type="Marker2D" parent="Markers_LEFT_EVEN" unique_id=1003113278]
+position = Vector2(-9.5, 40)
+
+[node name="Point14" type="Marker2D" parent="Markers_LEFT_EVEN" unique_id=85219036]
+position = Vector2(-21.5, 31)
+
+[node name="Point15" type="Marker2D" parent="Markers_LEFT_EVEN" unique_id=1739702994]
+position = Vector2(-31.5, 28)
+
+[node name="Markers_LEFT_ODD" type="Node2D" parent="." unique_id=1262113607]
+position = Vector2(-158, 56)
+
+[node name="Point00" type="Marker2D" parent="Markers_LEFT_ODD" unique_id=224814447]
+position = Vector2(-42, -46)
+
+[node name="Point01" type="Marker2D" parent="Markers_LEFT_ODD" unique_id=564985833]
+position = Vector2(-31.5, -28)
+
+[node name="Point02" type="Marker2D" parent="Markers_LEFT_ODD" unique_id=701426749]
+position = Vector2(-21.5, -31)
+
+[node name="Point03" type="Marker2D" parent="Markers_LEFT_ODD" unique_id=769831740]
+position = Vector2(-9.5, -40)
+
+[node name="Point04" type="Marker2D" parent="Markers_LEFT_ODD" unique_id=1382056179]
+position = Vector2(0.5, -40)
+
+[node name="Point05" type="Marker2D" parent="Markers_LEFT_ODD" unique_id=1037318401]
+position = Vector2(10.5, -40)
+
+[node name="Point06" type="Marker2D" parent="Markers_LEFT_ODD" unique_id=908774775]
+position = Vector2(22.5, -31)
+
+[node name="Point07" type="Marker2D" parent="Markers_LEFT_ODD" unique_id=867236040]
+position = Vector2(32.5, -28)
+
+[node name="Point08" type="Marker2D" parent="Markers_LEFT_ODD" unique_id=1048277342]
+position = Vector2(41.5, 19)
+
+[node name="Point09" type="Marker2D" parent="Markers_LEFT_ODD" unique_id=1381925398]
+position = Vector2(32.5, 28)
+
+[node name="Point10" type="Marker2D" parent="Markers_LEFT_ODD" unique_id=701530441]
+position = Vector2(22.5, 31)
+
+[node name="Point11" type="Marker2D" parent="Markers_LEFT_ODD" unique_id=2050725203]
+position = Vector2(10.5, 40)
+
+[node name="Point12" type="Marker2D" parent="Markers_LEFT_ODD" unique_id=225251623]
+position = Vector2(0.5, 40)
+
+[node name="Point13" type="Marker2D" parent="Markers_LEFT_ODD" unique_id=780259004]
+position = Vector2(-9.5, 40)
+
+[node name="Point14" type="Marker2D" parent="Markers_LEFT_ODD" unique_id=1074836991]
+position = Vector2(-21.5, 31)
+
+[node name="Point15" type="Marker2D" parent="Markers_LEFT_ODD" unique_id=1674562713]
+position = Vector2(-42, 42)
+
+[node name="Markers_RIGHT_EVEN" type="Node2D" parent="." unique_id=1507349090]
+position = Vector2(1155, -159)
+
+[node name="Point00" type="Marker2D" parent="Markers_RIGHT_EVEN" unique_id=1225281373]
+position = Vector2(-41.5, -19)
+
+[node name="Point01" type="Marker2D" parent="Markers_RIGHT_EVEN" unique_id=748630303]
+position = Vector2(-31.5, -28)
+
+[node name="Point02" type="Marker2D" parent="Markers_RIGHT_EVEN" unique_id=323067192]
+position = Vector2(-21.5, -31)
+
+[node name="Point03" type="Marker2D" parent="Markers_RIGHT_EVEN" unique_id=307059780]
+position = Vector2(-9.5, -40)
+
+[node name="Point04" type="Marker2D" parent="Markers_RIGHT_EVEN" unique_id=288161108]
+position = Vector2(0.5, -40)
+
+[node name="Point05" type="Marker2D" parent="Markers_RIGHT_EVEN" unique_id=994984746]
+position = Vector2(10.5, -40)
+
+[node name="Point06" type="Marker2D" parent="Markers_RIGHT_EVEN" unique_id=977604407]
+position = Vector2(22.5, -31)
+
+[node name="Point07" type="Marker2D" parent="Markers_RIGHT_EVEN" unique_id=970149278]
+position = Vector2(32.5, -28)
+
+[node name="Point08" type="Marker2D" parent="Markers_RIGHT_EVEN" unique_id=1980092592]
+position = Vector2(41.5, 19)
+
+[node name="Point09" type="Marker2D" parent="Markers_RIGHT_EVEN" unique_id=1155650558]
+position = Vector2(32.5, 28)
+
+[node name="Point10" type="Marker2D" parent="Markers_RIGHT_EVEN" unique_id=231181026]
+position = Vector2(22.5, 31)
+
+[node name="Point11" type="Marker2D" parent="Markers_RIGHT_EVEN" unique_id=530296439]
+position = Vector2(10.5, 40)
+
+[node name="Point12" type="Marker2D" parent="Markers_RIGHT_EVEN" unique_id=568088495]
+position = Vector2(0.5, 40)
+
+[node name="Point13" type="Marker2D" parent="Markers_RIGHT_EVEN" unique_id=666163228]
+position = Vector2(-9.5, 40)
+
+[node name="Point14" type="Marker2D" parent="Markers_RIGHT_EVEN" unique_id=2011413852]
+position = Vector2(-21.5, 31)
+
+[node name="Point15" type="Marker2D" parent="Markers_RIGHT_EVEN" unique_id=125255627]
+position = Vector2(-31.5, 28)
+
+[node name="Markers_RIGHT_ODD" type="Node2D" parent="." unique_id=1679561090]
+position = Vector2(1186, 1)
+
+[node name="Point00" type="Marker2D" parent="Markers_RIGHT_ODD" unique_id=1874320333]
+position = Vector2(-41.5, -19)
+
+[node name="Point01" type="Marker2D" parent="Markers_RIGHT_ODD" unique_id=558922626]
+position = Vector2(-31.5, -28)
+
+[node name="Point02" type="Marker2D" parent="Markers_RIGHT_ODD" unique_id=550601784]
+position = Vector2(-21.5, -31)
+
+[node name="Point03" type="Marker2D" parent="Markers_RIGHT_ODD" unique_id=286425110]
+position = Vector2(-9.5, -40)
+
+[node name="Point04" type="Marker2D" parent="Markers_RIGHT_ODD" unique_id=896700521]
+position = Vector2(0.5, -40)
+
+[node name="Point05" type="Marker2D" parent="Markers_RIGHT_ODD" unique_id=1323447902]
+position = Vector2(10.5, -40)
+
+[node name="Point06" type="Marker2D" parent="Markers_RIGHT_ODD" unique_id=468983]
+position = Vector2(30, -29)
+
+[node name="Point07" type="Marker2D" parent="Markers_RIGHT_ODD" unique_id=1564649324]
+position = Vector2(40, -43)
+
+[node name="Point08" type="Marker2D" parent="Markers_RIGHT_ODD" unique_id=1276025779]
+position = Vector2(41, 44)
+
+[node name="Point09" type="Marker2D" parent="Markers_RIGHT_ODD" unique_id=737130374]
+position = Vector2(37, 44)
+
+[node name="Point10" type="Marker2D" parent="Markers_RIGHT_ODD" unique_id=1662779141]
+position = Vector2(28, 29)
+
+[node name="Point11" type="Marker2D" parent="Markers_RIGHT_ODD" unique_id=1686351193]
+position = Vector2(10.5, 40)
+
+[node name="Point12" type="Marker2D" parent="Markers_RIGHT_ODD" unique_id=1961414301]
+position = Vector2(0.5, 40)
+
+[node name="Point13" type="Marker2D" parent="Markers_RIGHT_ODD" unique_id=682480251]
+position = Vector2(-9.5, 40)
+
+[node name="Point14" type="Marker2D" parent="Markers_RIGHT_ODD" unique_id=819464137]
+position = Vector2(-21.5, 31)
+
+[node name="Point15" type="Marker2D" parent="Markers_RIGHT_ODD" unique_id=799454706]
+position = Vector2(-31.5, 28)
+
+[node name="Markers_TOP" type="Node2D" parent="." unique_id=43340030]
+visible = false
+
+[node name="Point00" type="Marker2D" parent="Markers_TOP" unique_id=539749078]
+position = Vector2(-41.5, -19)
+
+[node name="Point01" type="Marker2D" parent="Markers_TOP" unique_id=357700885]
+position = Vector2(-31.5, -28)
+
+[node name="Point02" type="Marker2D" parent="Markers_TOP" unique_id=1568221058]
+position = Vector2(-21.5, -31)
+
+[node name="Point03" type="Marker2D" parent="Markers_TOP" unique_id=949419360]
+position = Vector2(-9.5, -40)
+
+[node name="Point04" type="Marker2D" parent="Markers_TOP" unique_id=1978790458]
+position = Vector2(0.5, -40)
+
+[node name="Point05" type="Marker2D" parent="Markers_TOP" unique_id=169703797]
+position = Vector2(10.5, -40)
+
+[node name="Point06" type="Marker2D" parent="Markers_TOP" unique_id=247441937]
+position = Vector2(22.5, -31)
+
+[node name="Point07" type="Marker2D" parent="Markers_TOP" unique_id=1178058253]
+position = Vector2(32.5, -28)
+
+[node name="Point08" type="Marker2D" parent="Markers_TOP" unique_id=1683281043]
+position = Vector2(41.5, 19)
+
+[node name="Point09" type="Marker2D" parent="Markers_TOP" unique_id=246570947]
+position = Vector2(32.5, 28)
+
+[node name="Point10" type="Marker2D" parent="Markers_TOP" unique_id=1404751480]
+position = Vector2(22.5, 31)
+
+[node name="Point11" type="Marker2D" parent="Markers_TOP" unique_id=812888359]
+position = Vector2(10.5, 40)
+
+[node name="Point12" type="Marker2D" parent="Markers_TOP" unique_id=1744759936]
+position = Vector2(0.5, 40)
+
+[node name="Point13" type="Marker2D" parent="Markers_TOP" unique_id=1916666961]
+position = Vector2(-9.5, 40)
+
+[node name="Point14" type="Marker2D" parent="Markers_TOP" unique_id=1394782368]
+position = Vector2(-21.5, 31)
+
+[node name="Point15" type="Marker2D" parent="Markers_TOP" unique_id=2140874163]
+position = Vector2(-31.5, 28)
+
+[node name="Markers_BOTTOM" type="Node2D" parent="." unique_id=43363541]
+visible = false
+
+[node name="Point00" type="Marker2D" parent="Markers_BOTTOM" unique_id=1313960728]
+position = Vector2(-41.5, -19)
+
+[node name="Point01" type="Marker2D" parent="Markers_BOTTOM" unique_id=656468684]
+position = Vector2(-31.5, -28)
+
+[node name="Point02" type="Marker2D" parent="Markers_BOTTOM" unique_id=647771689]
+position = Vector2(-21.5, -31)
+
+[node name="Point03" type="Marker2D" parent="Markers_BOTTOM" unique_id=96223102]
+position = Vector2(-9.5, -40)
+
+[node name="Point04" type="Marker2D" parent="Markers_BOTTOM" unique_id=98875156]
+position = Vector2(0.5, -40)
+
+[node name="Point05" type="Marker2D" parent="Markers_BOTTOM" unique_id=1002361130]
+position = Vector2(10.5, -40)
+
+[node name="Point06" type="Marker2D" parent="Markers_BOTTOM" unique_id=126536468]
+position = Vector2(22.5, -31)
+
+[node name="Point07" type="Marker2D" parent="Markers_BOTTOM" unique_id=727652379]
+position = Vector2(32.5, -28)
+
+[node name="Point08" type="Marker2D" parent="Markers_BOTTOM" unique_id=1664132661]
+position = Vector2(41.5, 19)
+
+[node name="Point09" type="Marker2D" parent="Markers_BOTTOM" unique_id=233441468]
+position = Vector2(32.5, 28)
+
+[node name="Point10" type="Marker2D" parent="Markers_BOTTOM" unique_id=1843721908]
+position = Vector2(22.5, 31)
+
+[node name="Point11" type="Marker2D" parent="Markers_BOTTOM" unique_id=496063668]
+position = Vector2(10.5, 40)
+
+[node name="Point12" type="Marker2D" parent="Markers_BOTTOM" unique_id=9810974]
+position = Vector2(0.5, 40)
+
+[node name="Point13" type="Marker2D" parent="Markers_BOTTOM" unique_id=1615455653]
+position = Vector2(-9.5, 40)
+
+[node name="Point14" type="Marker2D" parent="Markers_BOTTOM" unique_id=244783571]
+position = Vector2(-21.5, 31)
+
+[node name="Point15" type="Marker2D" parent="Markers_BOTTOM" unique_id=354815366]
+position = Vector2(-31.5, 28)
