@@ -4,62 +4,92 @@ class_name Honeycomb
 signal cell_installed
 
 const COMB_TEXTURE := preload("res://sprites/Frame/Comb.png")
+const CELL_MASK := preload("res://sprites/Frame/Empty_cell.png")
 const TEXTURE_SIZE := Vector2(1425.0, 789.0)
 const PITCH_X := 66.0
 const PITCH_Y := 54.0
 const ROW_COUNT := 14
 const COL_COUNT := 21
 const BASE_ALPHA := 0.2
-
-# Outline of Empty_cell.png's alpha mask (offsets from the cell's own center): flat top, two
-# diagonals, a vertical side edge, and the same mirrored below. Used purely as a shape - the
-# colors always come from Comb.png at the matching position, never from the mask file itself.
-# The flats sit at +-42 rather than the sprite's +-40 because Comb.png draws its cells a couple
-# of pixels taller; being slightly generous avoids seams between neighbours.
-const CELL_OUTLINE: Array[Vector2] = [
-	Vector2(-11.5, -42.0), Vector2(11.5, -42.0),
-	Vector2(32.5, -28.0), Vector2(41.5, -19.0),
-	Vector2(41.5, 19.0), Vector2(32.5, 28.0),
-	Vector2(11.5, 42.0), Vector2(-11.5, 42.0),
-	Vector2(-32.5, 28.0), Vector2(-41.5, 19.0),
-	Vector2(-41.5, -19.0), Vector2(-32.5, -28.0),
-]
+# Width of the wax tab that joins a side-column cell to the wood, measured off Comb.png. Past
+# it there's a transparent gap, then the neighbouring cells' walls.
+const FRAME_LEG_WIDTH := 6
+# Top-right and bottom-left don't follow their column's parity - the grid leaves a gap there that
+# the art fills with a wedge of wax joining both rails (37x27 and 38x21). This box covers either
+# one, and reaches no other cell's wax.
+const FRAME_CORNER_PATCH := Vector2i(42, 28)
 
 var _installed: Dictionary = {}
+var _comb_image: Image
+var _mask_image: Image
+var _stencil: Image
+var _revealed: Image
+var _revealed_texture: ImageTexture
 
 func _ready() -> void:
+	texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	_comb_image = COMB_TEXTURE.get_image()
+	_comb_image.convert(Image.FORMAT_RGBA8)
+	_mask_image = CELL_MASK.get_image()
+	_mask_image.convert(Image.FORMAT_RGBA8)
+	var w := int(TEXTURE_SIZE.x)
+	var h := int(TEXTURE_SIZE.y)
+	_stencil = Image.create_empty(w, h, false, Image.FORMAT_RGBA8)
+	_revealed = Image.create_empty(w, h, false, Image.FORMAT_RGBA8)
+	_revealed_texture = ImageTexture.create_from_image(_revealed)
 	gui_input.connect(_on_gui_input)
 
 func _draw() -> void:
-	var scale_factor := size.x / TEXTURE_SIZE.x
-	draw_texture_rect_region(COMB_TEXTURE, Rect2(Vector2.ZERO, size), Rect2(Vector2.ZERO, TEXTURE_SIZE), Color(1, 1, 1, BASE_ALPHA))
-	for key in _installed:
-		_draw_cell(key.x, key.y, scale_factor)
+	draw_texture_rect(COMB_TEXTURE, Rect2(Vector2.ZERO, size), false, Color(1, 1, 1, BASE_ALPHA))
+	draw_texture_rect(_revealed_texture, Rect2(Vector2.ZERO, size), false)
 
-func _draw_cell(row: int, col: int, scale_factor: float) -> void:
-	var center: Vector2 = _cell_center(row, col)
-	# Only the sides a cell genuinely touches get flattened onto the wood, so its contact spans
-	# the cell's full extent instead of just the sliver that pokes past the canvas edge.
-	var touches_top := row == 0
-	var touches_bottom := row == ROW_COUNT - 1
-	var touches_left := col == 0 and row % 2 == 0
-	var touches_right := col == COL_COUNT - 1 and row % 2 == 1
+# Punches a cell into the stencil using Empty_cell.png's own alpha, so the cut follows the
+# sprite's pixels exactly instead of a polygon edge slicing across them.
+func _stamp_cell(row: int, col: int) -> void:
+	var mask_size := _mask_image.get_size()
+	var center := _cell_center(row, col)
+	var top_left := Vector2i(
+		roundi(center.x - (mask_size.x - 1) / 2.0),
+		roundi(center.y - (mask_size.y - 1) / 2.0))
+	_stencil_blend(_mask_image, top_left)
+	if col == 0 and row % 2 == 0:
+		_stencil_fill(Rect2i(0, top_left.y, FRAME_LEG_WIDTH, mask_size.y))
+	if col == COL_COUNT - 1 and row % 2 == 1:
+		_stencil_fill(Rect2i(int(TEXTURE_SIZE.x) - FRAME_LEG_WIDTH, top_left.y, FRAME_LEG_WIDTH, mask_size.y))
+	# Top and bottom rows reach the bar through the gap the mask leaves. Opening the mask's whole
+	# width is safe - the neighbouring cell's tab starts well beyond it.
+	if row == 0:
+		_stencil_fill(Rect2i(top_left.x, 0, mask_size.x, top_left.y))
+	if row == ROW_COUNT - 1:
+		var mask_bottom := top_left.y + mask_size.y
+		_stencil_fill(Rect2i(top_left.x, mask_bottom, mask_size.x, int(TEXTURE_SIZE.y) - mask_bottom))
+	if row == 0 and col == COL_COUNT - 1:
+		_stencil_fill(Rect2i(int(TEXTURE_SIZE.x) - FRAME_CORNER_PATCH.x, 0, FRAME_CORNER_PATCH.x, FRAME_CORNER_PATCH.y))
+	if row == ROW_COUNT - 1 and col == 0:
+		_stencil_fill(Rect2i(0, int(TEXTURE_SIZE.y) - FRAME_CORNER_PATCH.y, FRAME_CORNER_PATCH.x, FRAME_CORNER_PATCH.y))
+	_revealed.blit_rect_mask(_comb_image, _stencil, Rect2i(Vector2i.ZERO, _stencil.get_size()), Vector2i.ZERO)
+	_revealed_texture.update(_revealed)
+	queue_redraw()
 
-	var points := PackedVector2Array()
-	var uvs := PackedVector2Array()
-	for offset in CELL_OUTLINE:
-		var p := center + offset
-		if touches_top and offset.y < 0.0:
-			p.y = 0.0
-		if touches_bottom and offset.y > 0.0:
-			p.y = TEXTURE_SIZE.y
-		if touches_left and offset.x < 0.0:
-			p.x = 0.0
-		if touches_right and offset.x > 0.0:
-			p.x = TEXTURE_SIZE.x
-		points.append(p * scale_factor)
-		uvs.append(p / TEXTURE_SIZE)
-	draw_polygon(points, PackedColorArray([Color.WHITE]), uvs, COMB_TEXTURE)
+func _stencil_blend(src: Image, dst: Vector2i) -> void:
+	var src_rect := Rect2i(Vector2i.ZERO, src.get_size())
+	if dst.x < 0:
+		src_rect.position.x -= dst.x
+		src_rect.size.x += dst.x
+		dst.x = 0
+	if dst.y < 0:
+		src_rect.position.y -= dst.y
+		src_rect.size.y += dst.y
+		dst.y = 0
+	src_rect.size.x -= maxi(0, dst.x + src_rect.size.x - int(TEXTURE_SIZE.x))
+	src_rect.size.y -= maxi(0, dst.y + src_rect.size.y - int(TEXTURE_SIZE.y))
+	if src_rect.size.x > 0 and src_rect.size.y > 0:
+		_stencil.blend_rect(src, src_rect, dst)
+
+func _stencil_fill(rect: Rect2i) -> void:
+	var clipped := rect.intersection(Rect2i(Vector2i.ZERO, _stencil.get_size()))
+	if clipped.size.x > 0 and clipped.size.y > 0:
+		_stencil.fill_rect(clipped, Color.WHITE)
 
 func _cell_center(row: int, col: int) -> Vector2:
 	var y := 45.0 + row * PITCH_Y
@@ -125,7 +155,7 @@ func install_cell(row: int, col: int) -> bool:
 	if not can_install(row, col):
 		return false
 	_installed[Vector2i(row, col)] = true
-	queue_redraw()
+	_stamp_cell(row, col)
 	cell_installed.emit()
 	return true
 
